@@ -4,5 +4,5 @@ variable "AWS_SECRET_ACCESS_KEY" {
 
 resource "aws_s3_bucket" "a_very_bad_public_s3_bucket" {
   bucket = "my-public-bucket-3"
-  acl    = "public-read"
+  acl    = "private"
 }
