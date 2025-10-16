@@ -7,3 +7,10 @@ resource "aws_s3_bucket" "a_very_bad_public_s3_bucket" {
   bucket = "my-public-bucket-3"
   acl    = "public-read"
 }
+
+# Example 2: Public write access - SECURITY ISSUE
+# Proposed fix: Change acl to "private" or "public-read"
+resource "aws_s3_bucket" "dangerous_public_write_bucket" {
+  bucket = "my-dangerous-write-bucket"
+  acl    = "public-read-write"
+}
