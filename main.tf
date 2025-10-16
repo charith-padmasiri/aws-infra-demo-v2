@@ -9,8 +9,25 @@ resource "aws_s3_bucket" "a_very_bad_public_s3_bucket" {
 }
 
 # Example 2: Public write access - SECURITY ISSUE
-# Proposed fix: Change acl to "private" or "public-read"
+# Proposed fix: Remove the bucket policy or restrict Principal to specific accounts
 resource "aws_s3_bucket" "dangerous_public_write_bucket" {
   bucket = "my-dangerous-write-bucket"
-  acl    = "public-read-write"
+  acl    = "public-read"
+}
+
+resource "aws_s3_bucket_policy" "dangerous_public_write_policy" {
+  bucket = aws_s3_bucket.dangerous_public_write_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "AllowPublicWrite"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "s3:PutObject"
+        Resource  = "${aws_s3_bucket.dangerous_public_write_bucket.arn}/*"
+      }
+    ]
+  })
 }
