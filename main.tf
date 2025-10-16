@@ -15,19 +15,3 @@ resource "aws_s3_bucket" "dangerous_public_write_bucket" {
   acl    = "public-read"
 }
 
-resource "aws_s3_bucket_policy" "dangerous_public_write_policy" {
-  bucket = aws_s3_bucket.dangerous_public_write_bucket.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid       = "AllowPublicWrite"
-        Effect    = "Allow"
-        Principal = "*"
-        Action    = "s3:PutObject"
-        Resource  = "${aws_s3_bucket.dangerous_public_write_bucket.arn}/*"
-      }
-    ]
-  })
-}
